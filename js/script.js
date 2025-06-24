@@ -99,3 +99,44 @@ function criarCardNecessidade(necessidade, index) {
         </div>
     `;
 }
+
+// Função para exibir necessidades
+function exibirNecessidades(necessidadesParaExibir = necessidades) {
+    const listaNecessidades = document.getElementById('listaNecessidades');
+    const mensagemVazia = document.getElementById('mensagemVazia');
+    
+    if (!listaNecessidades) return; 
+    
+    if (necessidadesParaExibir.length === 0) {
+        listaNecessidades.innerHTML = '';
+        mensagemVazia.style.display = 'block';
+    } else {
+        mensagemVazia.style.display = 'none';
+        listaNecessidades.innerHTML = necessidadesParaExibir
+            .map((necessidade, index) => criarCardNecessidade(necessidade, index))
+            .join('');
+    }
+}
+
+// Função para pesquisar necessidades
+function pesquisarNecessidades() {
+    const termoPesquisa = document.getElementById('campoPesquisa').value.toLowerCase();
+    const filtroTipo = document.getElementById('filtroTipo').value;
+    
+    let necessidadesFiltradas = necessidades;
+    
+    if (termoPesquisa) {
+        necessidadesFiltradas = necessidadesFiltradas.filter(necessidade =>
+            necessidade.titulo.toLowerCase().includes(termoPesquisa) ||
+            necessidade.descricao.toLowerCase().includes(termoPesquisa)
+        );
+    }
+    
+    if (filtroTipo) {
+        necessidadesFiltradas = necessidadesFiltradas.filter(necessidade =>
+            necessidade.tipoAjuda === filtroTipo
+        );
+    }
+    
+    exibirNecessidades(necessidadesFiltradas);
+}
