@@ -27,6 +27,40 @@
     </header>
 
     <main>
+          <section class="necessidades-section">
+            <div class="container">
+                <h2>Oportunidades de Voluntariado</h2>
+                <p>Encontre oportunidades para fazer a diferença na sua comunidade.</p>
+                
+                <div class="filtros">
+                    <div class="pesquisa-container">
+                        <input type="text" id="campoPesquisa" placeholder="Pesquisar por título ou descrição..." class="campo-pesquisa">
+                        <button onclick="pesquisarNecessidades()" class="btn-pesquisa">Pesquisar</button>
+                    </div>
+                    
+                    <div class="filtro-container">
+                        <label for="filtroTipo">Filtrar por tipo:</label>
+                        <select id="filtroTipo" onchange="filtrarPorTipo()">
+                            <option value="">Todos os tipos</option>
+                            <option value="Educação">Educação</option>
+                            <option value="Saúde">Saúde</option>
+                            <option value="Meio Ambiente">Meio Ambiente</option>
+                            <option value="Doação de Alimentos">Doação de Alimentos</option>
+                            <option value="Doação de Roupas">Doação de Roupas</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="listaNecessidades" class="necessidades-grid">
+                    </div>
+
+                <div id="mensagemVazia" class="mensagem-vazia" style="display: none;">
+                    <p>Nenhuma necessidade encontrada.</p>
+                    <a href="cadastro.html" class="btn btn-primary">Cadastrar Nova Necessidade</a>
+                </div>
+            </div>
+        </section>
         </main>
 
     <footer>
