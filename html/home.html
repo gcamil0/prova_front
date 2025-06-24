@@ -33,7 +33,7 @@
                 <p>Uma plataforma simples e intuitiva para aproximar instituições sociais de pessoas que desejam ajudar.</p>
                 <div class="hero-buttons">
                     <a href="cadastro.html" class="btn btn-primary">Cadastrar Necessidade</a>
-                    <a href="viewnc.html" class="btn btn-secondary">Ver Oportunidades</a>
+                    <a href="viewnc.html" class="btn btn-secondary">Ver Necessidades</a>
                 </div>
             </div>
         </section>
@@ -63,11 +63,14 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 UnirMãos. Todos os direitos reservados.</p>
+            <p>&copy; <span id="year"></span> UnirMãos. Todos os direitos reservados.</p>
             <p>Plataforma dedicada a conectar ONGs e voluntários para um mundo melhor.</p>
         </div>
     </footer>
 
     <script src="../js/script.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

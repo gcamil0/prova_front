@@ -35,7 +35,7 @@ const cepValido = (cep) => cep.length == 8 && eNumero(cep);
 
 // Função para validar CPF
 const pesquisarCEP = async () => {
-    limparFormulario();
+    limparCamposEndereco();
     const url = `https://viacep.com.br/ws/${cep.value}/json/`;
 
     if(cepValido(cep.value)){
@@ -59,7 +59,7 @@ const preencherFormulario = (endereco) => {
     document.getElementById('estado').value = endereco.uf;
 }
 // Função para limpar o formulário
-const limparFormulario = () => {
+const limparCamposEndereco = () => {
     document.getElementById('rua').value = '';
     document.getElementById('bairro').value = '';
     document.getElementById('cidade').value = '';
@@ -81,7 +81,7 @@ function exibirMensagemSucesso() {
 }
 
 // Função para criar card de necessidade
-function criarCardNecessidade(necessidade, index) {
+function criarCardNecessidade(necessidade, _index) {
     return `
         <div class="necessidade-card">
             <h3>${necessidade.titulo}</h3>
@@ -257,7 +257,8 @@ document.addEventListener('DOMContentLoaded', function() {
             necessidades.push(necessidade);
         
             salvarNecessidades();
-            limparFormulario();
+            limparCamposEndereco();
+            exibirMensagemSucesso();
             exibirMensagemSucesso();
         });
     }
