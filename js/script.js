@@ -67,3 +67,35 @@ const limparFormulario = () => {
 }
 // Evento para pesquisar CEP ao perder o foco
 document.getElementById('cep').addEventListener('focusout', pesquisarCEP);
+
+// Função para exibir mensagem de sucesso
+function exibirMensagemSucesso() {
+    const mensagem = document.getElementById('mensagemSucesso');
+    mensagem.style.display = 'block';
+    
+    mensagem.scrollIntoView({ behavior: 'smooth' });
+    
+    setTimeout(() => {
+        mensagem.style.display = 'none';
+    }, 4000);
+}
+
+// Função para criar card de necessidade
+function criarCardNecessidade(necessidade, index) {
+    return `
+        <div class="necessidade-card">
+            <h3>${necessidade.titulo}</h3>
+            <div class="instituicao">${necessidade.nomeInstituicao}</div>
+            <div class="tipo">${necessidade.tipoAjuda}</div>
+            <div class="descricao">${necessidade.descricao}</div>
+            <div class="endereco">
+                ${necessidade.rua}, ${necessidade.bairro} - ${necessidade.cidade}/${necessidade.estado}
+                <br>CEP: ${necessidade.cep}
+            </div>
+            <div class="contato">
+                ${necessidade.email}
+                ${necessidade.telefone ? `<br>${necessidade.telefone}` : ''}
+            </div>
+        </div>
+    `;
+}
