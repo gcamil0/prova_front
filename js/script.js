@@ -140,3 +140,125 @@ function pesquisarNecessidades() {
     
     exibirNecessidades(necessidadesFiltradas);
 }
+
+// Função para filtrar por tipo
+function filtrarPorTipo() {
+    pesquisarNecessidades();
+}
+
+// Event listeners para quando a página carrega
+document.addEventListener('DOMContentLoaded', function() {
+    carregarNecessidades();
+    
+    // Se estiver na página de necessidades, exibe as necessidades
+    if (document.getElementById('listaNecessidades')) {
+        exibirNecessidades();
+        
+        const campoPesquisa = document.getElementById('campoPesquisa');
+        if (campoPesquisa) {
+            campoPesquisa.addEventListener('input', pesquisarNecessidades);
+        }
+    }
+    
+    // Se estiver na página de cadastro, configura o formulário
+    const formulario = document.getElementById('necessidadeForm');
+    if (formulario) {
+        
+        const campoCEP = document.getElementById('cep');
+        if (campoCEP) {
+            campoCEP.addEventListener('input', function(e) {
+                e.target.value = formatarCEP(e.target.value);
+            });
+            
+            campoCEP.addEventListener('blur', async function(e) {
+                const cep = e.target.value;
+                
+                if (validarCEP(cep)) {
+                    try {
+                        const endereco = await buscarEnderecoPorCEP(cep);
+                        
+                        document.getElementById('rua').value = endereco.rua;
+                        document.getElementById('bairro').value = endereco.bairro;
+                        document.getElementById('cidade').value = endereco.cidade;
+                        document.getElementById('estado').value = endereco.estado;
+                    } catch (error) {
+                        alert('Erro ao buscar CEP: ' + error.message);
+                        
+                        document.getElementById('rua').value = '';
+                        document.getElementById('bairro').value = '';
+                        document.getElementById('cidade').value = '';
+                        document.getElementById('estado').value = '';
+                    }
+                }
+            });
+        }
+        
+        formulario.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Coleta os dados do formulário
+            const formData = new FormData(formulario);
+            const necessidade = {
+                nomeInstituicao: formData.get('nomeInstituicao'),
+                tipoAjuda: formData.get('tipoAjuda'),
+                titulo: formData.get('titulo'),
+                descricao: formData.get('descricao'),
+                cep: formData.get('cep'),
+                rua: formData.get('rua'),
+                bairro: formData.get('bairro'),
+                cidade: formData.get('cidade'),
+                estado: formData.get('estado'),
+                email: formData.get('email'),
+                telefone: formData.get('telefone'),
+                dataCadastro: new Date().toISOString()
+            };
+            
+            // Validação dos campos
+            let erros = [];
+            
+            if (!necessidade.nomeInstituicao.trim()) {
+                erros.push('Nome da instituição é obrigatório');
+            }
+            
+            if (!necessidade.tipoAjuda) {
+                erros.push('Tipo de ajuda é obrigatório');
+            }
+            
+            if (!necessidade.titulo.trim()) {
+                erros.push('Título da necessidade é obrigatório');
+            }
+            
+            if (!necessidade.descricao.trim()) {
+                erros.push('Descrição é obrigatória');
+            }
+            
+            if (!validarCEP(necessidade.cep)) {
+                erros.push('CEP inválido');
+            }
+            
+            if (!necessidade.rua.trim()) {
+                erros.push('Endereço deve ser preenchido automaticamente via CEP');
+            }
+            
+            if (!validarEmail(necessidade.email)) {
+                erros.push('E-mail inválido');
+            }
+            
+            if (necessidade.telefone && !validarTelefone(necessidade.telefone)) {
+                erros.push('Telefone inválido. Use o formato (11) 99999-9999');
+            }
+            
+            // Verifica se há erros
+            if (erros.length > 0) {
+                alert('Erros encontrados:\n' + erros.join('\n'));
+                return;
+            }
+            
+            necessidades.push(necessidade);
+        
+            salvarNecessidades();
+            limparFormulario();
+            exibirMensagemSucesso();
+        });
+    }
+});
